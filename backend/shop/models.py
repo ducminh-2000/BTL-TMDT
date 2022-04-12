@@ -4,7 +4,6 @@ from MySQLdb import Timestamp
 from django.db import models
 
 
-
 class Author(models.Model):  
     id = models.AutoField(primary_key='true') 
     name = models.CharField(max_length=255)  
@@ -117,6 +116,7 @@ class Clothes(models.Model):
     size = models.CharField(max_length=255)  
     importPrice = models.FloatField()
     color = models.CharField(max_length=255)
+    category = models.ForeignKey(CategoryClothes,on_delete=models.CASCADE)
     def __str__(self):
         return self.name
     class Meta:  

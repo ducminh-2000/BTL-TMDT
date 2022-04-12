@@ -58,8 +58,15 @@ MIDDLEWARE = [
 #CORS
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8081',
+    'http://localhost:8080',
 )
+
+# PAGINATIONS
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5,
+}
 
 ROOT_URLCONF = 'backend.urls'
 
