@@ -4,7 +4,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from shop.serializers import *
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
 class AuthorDAO:
 
     # pagination = CustomPagination()
@@ -63,6 +65,7 @@ class AuthorDAO:
         author.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@csrf_exempt
 class PublisherDAO:
     @api_view(['GET'])
     def list(request):
@@ -118,6 +121,7 @@ class PublisherDAO:
         author.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@csrf_exempt
 class CategoryBookDAO:
     
     pagination = PageNumberPagination()
@@ -176,6 +180,7 @@ class CategoryBookDAO:
         author.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@csrf_exempt
 class BookDAO:
 
     # pagination = CustomPagination()
@@ -234,6 +239,7 @@ class BookDAO:
         author.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@csrf_exempt
 class BookItemDAO:
 
     # pagination = CustomPagination()
