@@ -1,3 +1,4 @@
+from dataclasses import fields
 from rest_framework import serializers 
 from shop.models import *
 
@@ -17,16 +18,15 @@ class CategoryBookSer(serializers.ModelSerializer):
         fields = "__all__"
 
 class BookSer(serializers.ModelSerializer):
-    publisher = PublisherSer(many=True,read_only=True)
+    publisherId = PublisherSer(read_only=True)
     author = AuthorSer(many=True,read_only=True)
-    category = CategoryBookSer(many=True,read_only=True)
-
+    categoryBookId = CategoryBookSer(read_only=True)
     class Meta: 
         model = Book
         fields = "__all__"
 
 class BookItemSer(serializers.ModelSerializer):
-    book = BookSer(many=True,read_only=True)
+    book = BookSer(read_only=True)
     class Meta: 
         model = BookItem
         fields = "__all__"
@@ -37,7 +37,7 @@ class MobilePhoneSer(serializers.ModelSerializer):
         fields = "__all__"
 
 class MobilePhoneItemSer(serializers.ModelSerializer):
-    mobilePhone = MobilePhoneSer(many=True,read_only=True)
+    mobilePhone = MobilePhoneSer(read_only=True)
     class Meta: 
         model = MobilePhoneItem
         fields = "__all__"
@@ -68,13 +68,13 @@ class ShirtSer(serializers.ModelSerializer):
         fields = "__all__"
 
 class ClothesSer(serializers.ModelSerializer):
-    category = CategoryClothesSer(many=True,read_only=True)
+    category = CategoryClothesSer(read_only=True)
     class Meta: 
         model = Clothes
         fields = "__all__"
 
 class ClothesItemSer(serializers.ModelSerializer):
-    clothes = ClothesSer(many=True,read_only=True)
+    clothes = ClothesSer(read_only=True)
     class Meta: 
         model = ClothesItem
         fields = "__all__"
@@ -105,9 +105,9 @@ class FullnameSer(serializers.ModelSerializer):
         fields = "__all__"
 
 class CustomerSer(serializers.ModelSerializer):
-    account = AccountSer(many=True,read_only=True)
-    fullname = FullnameSer(many=True,read_only=True)
-    address = AddressSer(many=True,read_only=True)
+    account = AccountSer(read_only=True)
+    fullname = FullnameSer(read_only=True)
+    address = AddressSer(read_only=True)
     class Meta: 
         model = Customer
         fields = "__all__"
@@ -128,34 +128,34 @@ class VGASer(serializers.ModelSerializer):
         fields = "__all__"
 
 class LaptopSer(serializers.ModelSerializer):
-    vga = VGASer(many=True,read_only=True)
-    cup = CPUSer(many=True,read_only=True)
+    vga = VGASer(read_only=True)
+    cpu = CPUSer(read_only=True)
     class Meta: 
         model = Laptop
         fields = "__all__"
 
 class LaptopItemSer(serializers.ModelSerializer):
-    laptop = LaptopSer(many=True,read_only=True)
+    laptop = LaptopSer(read_only=True)
     class Meta: 
         model = LaptopItem
         fields = "__all__"
 
 class CartSer(serializers.ModelSerializer):
-    laptop = LaptopItemSer(many=True,read_only=True)
-    mobilePhone = MobilePhoneItemSer(many=True,read_only=True)
+    laptops = LaptopItemSer(many=True,read_only=True)
+    mobilePhones = MobilePhoneItemSer(many=True,read_only=True)
     clothes = ClothesItemSer(many=True,read_only=True)
-    book = BookItemSer(many=True,read_only=True)
+    books = BookItemSer(many=True,read_only=True)
     class Meta: 
         model = Cart
         fields = "__all__"
 
 class OrderSer(serializers.ModelSerializer):
-    address = AddressSer(many=True,read_only=True)
-    shipment = ShipmentSer(many=True,read_only=True)
-    payment = PaymentSer(many=True,read_only=True)
+    address = AddressSer(read_only=True)
+    shipment = ShipmentSer(read_only=True)
+    payment = PaymentSer(read_only=True)
     voucher = VoucherSer(many=True,read_only=True)
-    customer = CustomerSer(many=True,read_only=True)
-    cart = CartSer(many=True,read_only=True)
+    customer = CustomerSer(read_only=True)
+    cart = CartSer(read_only=True)
     class Meta: 
         model = Order
         fields = "__all__"

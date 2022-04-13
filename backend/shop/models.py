@@ -1,6 +1,6 @@
 from distutils.command.upload import upload
 from statistics import mode
-from MySQLdb import Timestamp
+from datetime import datetime
 from django.db import models
 
 
@@ -40,6 +40,7 @@ class Book(models.Model):
     categoryBookId = models.ForeignKey(CategoryBook,on_delete=models.CASCADE)
     publisherId = models.ForeignKey(Publisher,on_delete=models.CASCADE)
     author = models.ManyToManyField(Author)
+
     def __str__(self):
         return self.title
     class Meta:  
@@ -55,6 +56,8 @@ class BookItem(models.Model):
     numAvailidInStock = models.IntegerField()
     images = models.ImageField(upload_to='backend/shop/uploads')
     book = models.ForeignKey(Book,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
     class Meta:
         db_table = "bookitem"
 
@@ -95,6 +98,8 @@ class MobilePhoneItem(models.Model):
     numAvailidInStock = models.IntegerField()
     images = models.ImageField(upload_to='backend/shop/uploads')
     mobilePhone = models.ForeignKey(MobilePhone,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
     class Meta:
         db_table = "mobilephoneitem"
 
@@ -118,7 +123,7 @@ class Clothes(models.Model):
     color = models.CharField(max_length=255)
     category = models.ForeignKey(CategoryClothes,on_delete=models.CASCADE)
     def __str__(self):
-        return self.name
+        return self.productName
     class Meta:  
         db_table = "clothes"
 
@@ -141,6 +146,7 @@ class Dress(Clothes):
     buttMeasurements = models.FloatField()
     length = models.FloatField()
     shape = models.CharField(max_length=255)
+    
     class Meta:  
         db_table = "dress"
 
@@ -173,6 +179,8 @@ class ClothesItem(models.Model):
     numAvailidInStock = models.IntegerField()
     images = models.ImageField(upload_to='backend/shop/uploads')
     clothes = models.ForeignKey(Clothes,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
     class Meta:
         db_table = "clothesitem"
 
@@ -181,6 +189,8 @@ class ClothesItem(models.Model):
 class Payment(models.Model):
     id = models.AutoField(primary_key='true')
     type = models.CharField(max_length=255)
+    def __str__(self):
+        return self.type
     class Meta: 
         db_table = "payment"
 
@@ -188,6 +198,8 @@ class Shipment(models.Model):
     id = models.AutoField(primary_key='true')
     cost = models.FloatField()
     type = models.CharField(max_length=255)
+    def __str__(self):
+        return self.type
     class Meta:
         db_table = "shipment"
 
@@ -195,6 +207,8 @@ class Account(models.Model):
     id = models.AutoField(primary_key='true')
     username = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
+    def __str__(self):
+        return self.username
     class Meta:
         db_table = "account"
 
@@ -204,6 +218,8 @@ class Address(models.Model):
     street = models.CharField(max_length=255)
     district = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
+    def __str__(self):
+        return self.numberHouse
     class Meta:
         db_table = "address"
 
@@ -212,6 +228,8 @@ class FullName(models.Model):
     fisrtName = models.CharField(max_length=255)
     midName = models.CharField(max_length=255)
     lastName = models.CharField(max_length=255)
+    def __str__(self):
+        return self.fisrtName + self.midName + self.lastName
     class Meta:
         db_table = "fullname"
 
@@ -222,6 +240,8 @@ class Customer(models.Model):
     fullName = models.ForeignKey(FullName,on_delete=models.CASCADE)
     address = models.ForeignKey(Address,on_delete=models.CASCADE)
     account = models.ForeignKey(Account,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.fullName
     class Meta:
         db_table = "customer"
 
@@ -230,6 +250,8 @@ class Voucher(models.Model):
     name = models.CharField(max_length=255)
     discountPercent = models.FloatField()
     description = models.CharField(max_length=255)
+    def __str__(self):
+        return self.name
     class Meta:
         db_table = "voucher"
 
@@ -287,6 +309,8 @@ class LaptopItem(models.Model):
     numAvailidInStock = models.IntegerField()
     images = models.ImageField(upload_to='backend/shop/uploads')
     laptop = models.ForeignKey(Laptop,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
     class Meta:
         db_table = "laptopitem"
 
@@ -312,5 +336,7 @@ class Order(models.Model):
     voucher = models.ManyToManyField(Voucher)
     customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.customer
     class Meta:
         db_table = "order"

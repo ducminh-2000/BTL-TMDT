@@ -1,21 +1,24 @@
 from rest_framework import status
 from django.http import JsonResponse
-from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.views.decorators.csrf import csrf_exempt
-from django.core import serializers
-
-
-
+from rest_framework.pagination import PageNumberPagination
 from shop.serializers import *
+
 class AuthorDAO:
+
+    # pagination = CustomPagination()
+
     @api_view(['GET'])
     def list(request):
         # find Author by pk (id)
         try: 
-            author = list(Author.objects.values())
-            return JsonResponse(author, safe=False)
+            search = request.query_params.get('search') if request.query_params.get('search') != None else ""
+            author = (Author.objects.filter(name__contains=search))
+            res = list()
+            for e in author:
+                res.append(AuthorSer(e).data)
+            return JsonResponse(res, safe=False)
         except Author.DoesNotExist: 
             return Response({'message': 'The Author does not exist'}, status=status.HTTP_404_NOT_FOUND) 
 
@@ -65,8 +68,12 @@ class PublisherDAO:
     def list(request):
         # find Author by pk (id)
         try: 
-            author = list(Publisher.objects.values())
-            return JsonResponse(author, safe=False)
+            search = request.query_params.get('search') if request.query_params.get('search') != None else ""
+            author = (Publisher.objects.filter(name__contains=search))
+            res = list()
+            for e in author:
+                res.append(PublisherSer(e).data)
+            return JsonResponse(res, safe=False)
         except Publisher.DoesNotExist: 
             return Response({'message': 'The Author does not exist'}, status=status.HTTP_404_NOT_FOUND) 
 
@@ -112,12 +119,19 @@ class PublisherDAO:
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class CategoryBookDAO:
+    
+    pagination = PageNumberPagination()
+    
     @api_view(['GET'])
     def list(request):
         # find Author by pk (id)
         try: 
-            author = list(CategoryBook.objects.values())
-            return JsonResponse(author, safe=False)
+            search = request.query_params.get('search') if request.query_params.get('search') != None else ""
+            author = list(CategoryBook.objects.filter(name__contains=search))
+            res = list()
+            for e in author:
+                res.append(CategoryBookSer(e).data)
+            return JsonResponse(res, safe=False)
         except CategoryBook.DoesNotExist: 
             return Response({'message': 'The Author does not exist'}, status=status.HTTP_404_NOT_FOUND) 
 
@@ -163,12 +177,19 @@ class CategoryBookDAO:
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class BookDAO:
+
+    # pagination = CustomPagination()
+    
     @api_view(['GET'])
     def list(request):
         # find Author by pk (id)
         try: 
-            author = list(Book.objects.values())
-            return JsonResponse(author, safe=False)
+            search = request.query_params.get('search') if request.query_params.get('search') != None else ""
+            author = (Book.objects.filter(title__contains=search))
+            res = list()
+            for e in author:
+                res.append(BookSer(e).data)
+            return JsonResponse(res, safe=False)
         except Book.DoesNotExist: 
             return Response({'message': 'The Author does not exist'}, status=status.HTTP_404_NOT_FOUND) 
 
@@ -214,12 +235,19 @@ class BookDAO:
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class BookItemDAO:
+
+    # pagination = CustomPagination()
+
     @api_view(['GET'])
     def list(request):
         # find Author by pk (id)
         try: 
-            author = list(BookItem.objects.values())
-            return JsonResponse(author, safe=False)
+            search = request.query_params.get('search') if request.query_params.get('search') != None else ""
+            author = (BookItem.objects.filter(name__contains=search))
+            res = list()
+            for e in author:
+                res.append(BookItemSer(e).data)
+            return JsonResponse(res, safe=False)
         except BookItem.DoesNotExist: 
             return Response({'message': 'The Author does not exist'}, status=status.HTTP_404_NOT_FOUND) 
 
