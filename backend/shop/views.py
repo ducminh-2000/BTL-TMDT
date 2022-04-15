@@ -298,3 +298,198 @@ class BookItemDAO:
         author.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+@csrf_exempt
+class CartDAO:
+
+    # pagination = CustomPagination()
+
+    @api_view(['GET'])
+    def list(request):
+        # find Author by pk (id)
+        try: 
+            author = (Cart.objects.filter())
+            res = list()
+            for e in author:
+                res.append(CartSer(e).data)
+            return JsonResponse(res, safe=False)
+        except Cart.DoesNotExist: 
+            return Response({'message': 'The Author does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+
+    @api_view(['GET'])
+    def getById(request,id):
+        try:
+            author = Cart.objects.get(id=id)
+            return JsonResponse((CartSer(author).data), safe=False)
+        except Cart.DoesNotExist:
+            return Response({'message': 'The Author does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+    @api_view(['PUT'])
+    def update(request,id):
+        try:
+            author = Cart.objects.get(id=id)
+            serializer = CartSer(author, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return JsonResponse(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Cart.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    @api_view(['POST'])
+    def create(request):
+        try:
+            author = Cart()
+            serializer = CartSer(author, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return JsonResponse(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Cart.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)       
+        
+    @api_view(['DELETE'])
+    def delete(request,id):
+        try:
+            author = Cart.objects.get(id=id)
+        except Cart.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        author.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@csrf_exempt
+class OrderDAO:
+
+    # pagination = CustomPagination()
+
+    @api_view(['GET'])
+    def list(request):
+        # find Author by pk (id)
+        try: 
+            author = (Order.objects.filter())
+            res = list()
+            for e in author:
+                res.append(OrderSer(e).data)
+            return JsonResponse(res, safe=False)
+        except Order.DoesNotExist: 
+            return Response({'message': 'The Author does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+
+    @api_view(['GET'])
+    def getById(request,id):
+        try:
+            author = Order.objects.get(id=id)
+            return JsonResponse((CartSer(author).data), safe=False)
+        except Order.DoesNotExist:
+            return Response({'message': 'The Author does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+    @api_view(['PUT'])
+    def update(request,id):
+        try:
+            author = Order.objects.get(id=id)
+            serializer = OrderSer(author, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return JsonResponse(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Order.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    @api_view(['POST'])
+    def create(request):
+        try:
+            author = Order()
+            serializer = OrderSer(author, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return JsonResponse(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Order.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)       
+        
+    @api_view(['DELETE'])
+    def delete(request,id):
+        try:
+            author = Order.objects.get(id=id)
+        except Order.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        author.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@csrf_exempt
+class CustomerDAO:
+
+    # pagination = CustomPagination()
+
+    @api_view(['GET'])
+    def list(request):
+        # find Author by pk (id)
+        try: 
+            author = (Customer.objects.filter())
+            res = list()
+            for e in author:
+                res.append(CustomerSer(e).data)
+            return JsonResponse(res, safe=False)
+        except Customer.DoesNotExist: 
+            return Response({'message': 'The Author does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+
+    @api_view(['GET'])
+    def getById(request,id):
+        try:
+            author = Customer.objects.get(id=id)
+            return JsonResponse((CustomerSer(author).data), safe=False)
+        except Customer.DoesNotExist:
+            return Response({'message': 'The Author does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+    @api_view(['GET'])
+    def login(request):
+        # find Author by pk (id)
+        try: 
+            username = request.query_params.get('username') if request.query_params.get('username') != None else ""
+            password = request.query_params.get('password') if request.query_params.get('password') != None else ""
+            account = Account.objects.filter(username__contains=username).filter(password__contains=password).get()
+            if(account != None):
+                author = (Customer.objects.filter(account_id=account.id))
+                res = list()
+                for e in author:
+                    res.append(CustomerSer(e).data)
+                return JsonResponse(res, safe=False)
+            else:
+                return Response({'message': 'The Author does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+
+        except Customer.DoesNotExist: 
+            return Response({'message': 'The Author does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+
+    @api_view(['PUT'])
+    def update(request,id):
+        try:
+            author = Customer.objects.get(id=id)
+            serializer = CustomerSer(author, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return JsonResponse(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Customer.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    @api_view(['POST'])
+    def create(request):
+        try:
+            author = Customer()
+            serializer = CustomerSer(author, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return JsonResponse(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Customer.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)       
+        
+    @api_view(['DELETE'])
+    def delete(request,id):
+        try:
+            author = Customer.objects.get(id=id)
+        except Customer.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        author.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+

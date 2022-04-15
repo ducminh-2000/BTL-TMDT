@@ -44,6 +44,22 @@ urlpatterns = [
     path('api/bookItem/create/', BookItemDAO.create),
     path('api/bookItem/update/<int:id>/', BookItemDAO.update),
     path('api/bookItem/delete/<int:id>/', BookItemDAO.delete),
+    path('api/cart/list/', CartDAO.list),
+    path('api/cart/<int:id>/', CartDAO.getById),
+    path('api/cart/create/', CartDAO.create),
+    path('api/cart/update/<int:id>/', CartDAO.update),
+    path('api/cart/delete/<int:id>/', CartDAO.delete),
+    path('api/order/list/', OrderDAO.list),
+    path('api/order/<int:id>/', OrderDAO.getById),
+    path('api/order/create/', OrderDAO.create),
+    path('api/order/update/<int:id>/', OrderDAO.update),
+    path('api/order/delete/<int:id>/', OrderDAO.delete),
+    path('api/customer/list/', CustomerDAO.list),
+    path('api/customer/login/', CustomerDAO.login),
+    path('api/customer/<int:id>/', CustomerDAO.getById),
+    path('api/customer/create/', CustomerDAO.create),
+    path('api/customer/update/<int:id>/', CustomerDAO.update),
+    path('api/customer/delete/<int:id>/', CustomerDAO.delete),
 
 ]
 

@@ -241,7 +241,7 @@ class Customer(models.Model):
     address = models.ForeignKey(Address,on_delete=models.CASCADE)
     account = models.ForeignKey(Account,on_delete=models.CASCADE)
     def __str__(self):
-        return self.fullName
+        return self.mail
     class Meta:
         db_table = "customer"
 
@@ -318,10 +318,10 @@ class Cart(models.Model):
     id = models.AutoField(primary_key = 'true')
     quantity = models.FloatField()
     totalPrice = models.FloatField()
-    books = models.ManyToManyField(BookItem)
-    clothes = models.ManyToManyField(ClothesItem)
-    mobliePhones = models.ManyToManyField(MobilePhoneItem)
-    laptops = models.ManyToManyField(LaptopItem)
+    books = models.ManyToManyField(BookItem,blank=True)
+    clothes = models.ManyToManyField(ClothesItem,blank=True)
+    mobliePhones = models.ManyToManyField(MobilePhoneItem, blank=True)
+    laptops = models.ManyToManyField(LaptopItem, blank=True)
     class Meta:
         db_table = "cart"
 
@@ -333,7 +333,7 @@ class Order(models.Model):
     address = models.ForeignKey(Address,on_delete=models.CASCADE)
     shipment = models.ForeignKey(Shipment,on_delete=models.CASCADE)
     payment = models.ForeignKey(Payment,on_delete=models.CASCADE)
-    voucher = models.ManyToManyField(Voucher)
+    voucher = models.ManyToManyField(Voucher, blank=True)
     customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart,on_delete=models.CASCADE)
     def __str__(self):
